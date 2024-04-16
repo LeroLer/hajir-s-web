@@ -1,16 +1,15 @@
-<?php
+<?php 
+require 'koneksi.php';
 include 'template/header.php';
 include 'template/side.php';
-require 'koneksi.php';
 
-$query = "SELECT * FROM prodi";
+$id = $_GET['id_prodi'];
+
+$query= "SELECT * FROM prodi WHERE id_prodi=$id";
 $hasil = mysqli_query($conn, $query);
 
-$data = [];
-while ($baris = mysqli_fetch_assoc($hasil))
-{
-  $data[] = $baris;
-}
+$data = mysqli_fetch_assoc($hasil);
+
 
 ?>
 
@@ -21,7 +20,7 @@ while ($baris = mysqli_fetch_assoc($hasil))
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Program Studi</h1>
+          <h1 class="m-0">Edit Program Studi</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -35,61 +34,43 @@ while ($baris = mysqli_fetch_assoc($hasil))
 
   <!-- Main content -->
   <section class="content">
-    <div class="container-fluid">
-      <!-- Small boxes (Stat box) -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Data Program Studi</h3>
-
-             <div class="card-tools">
-              <a href="tambahprodi.php" class="btn btn-primary">Tambah</a>
-
-             </div>
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- jquery validation -->
+            <div class="card card-warning">
+              <div class="card-header">
+                <h3 class="card-title">Edit Data Prodi</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="editaksiprodi.php" method="POST">
+                <div class="card-body">
+                  <div class="form-group">
+                    <input type="hidden" name="id_prodi" value="<?= $data["id_prodi"]?>">
+                    <label for="prodi1">Nama Prodi</label>
+                    <input type="text" name="namaprodi" class="form-control" id="prodi1" value="<?= $data['nama_prodi'] ?>">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-warning">Submit</button>
+                </div>
+              </form>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-              <table class="table table-hover text-nowrap">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Nama Prodi</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                  foreach ($data as $d) {
-                    ?>
-                  <tr>
-                    <td><?php echo $d['id_prodi']?></td>
-                    <td><?php echo $d['nama_prodi']?></td>
-                    <td><a href="editprodi.php?id_prodi=<?= $d['id_prodi'] ?>" class="btn btn-warning">Edit</a>
-                    <a href="hapusprodi.php?id_prodi=<?= $d['id_prodi'] ?>" class="btn btn-danger">Hapus</a>
-                  </td>
-                  </tr>
-                  <?php
-                }
-                  ?>
-                </tbody>
-              </table>
+            <!-- /.card -->
             </div>
-            <!-- /.card-body -->
+          <!--/.col (left) -->
+          <!-- right column -->
+          <div class="col-md-6">
+
           </div>
-          <!-- /.card -->
+          <!--/.col (right) -->
         </div>
         <!-- /.row -->
-        <!-- Main row -->
-
-        <!-- /.row (main row) -->
-      </div>
-      <!-- /.row -->
-      <!-- Main row -->
-
-      <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
-  </section>
+      </div><!-- /.container-fluid -->
+    </section>
   <!-- /.content -->
 </div>
 
